@@ -1,0 +1,60 @@
+import simplegui,random
+bubbles=[]
+score=0
+no=0
+c=['red','blue','green','yellow']
+offset=[[-5,0],[5,0],[0,5],[0,-5]]
+flag=0
+class Bubble:
+    def __init__(self,rad,pos,clr):
+        self.rad=rad
+        self.pos=pos
+        self.clr=clr
+        
+    def update(self):
+        of=random.choice(offset)
+        self.pos[1]+=of[1]
+        self.pos[0]+=of[0]
+       
+    
+    def drawb(self,canvas):
+        canvas.draw_circle(self.pos,self.rad,1,'black',self.clr)
+        
+def genbubble():
+    global no
+    if no<=100:
+        b=Bubble(5,[200,300],random.choice(c))
+        bubbles.append(b)
+        no+=1
+    
+   
+    
+def draw(canvas):
+    global b
+    if flag==0:
+        canvas.draw_circle([200,300],25,2,'blue','red')
+    if flag==1:
+        for b in bubbles:
+            b.drawb(canvas)
+            b.update()
+        if random.random()<1:
+            genbubble()
+   
+    
+def click(p):
+    global flag
+    if p[0]<=225 and p[0]>=175 and p[1]<=325 and p[1]>=275:
+        flag=1
+      
+
+            
+        
+
+
+
+
+frame=simplegui.create_frame("bubble",400,600)
+frame.start()
+frame.set_canvas_background('pink')
+frame.set_draw_handler(draw) 
+frame.set_mouseclick_handler(click)
